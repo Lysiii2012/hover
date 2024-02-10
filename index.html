@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="step-block">
+        <div class="list-step-progres">
+            <div class="list-step step-container">
+                <ul class="step-icons">
+                    <li id="step-1">Step 1 <span></span></li>
+                    <li id="step-2">Step 2 <span></span></li>
+                    <li id="step-3">Step 3 <span></span></li>
+                    <li id="step-4">Step 4 <span></span></li>
+                </ul>
+            </div>
+        </div>    
+        <div class="step-container">
+            <div class="step-boxs">
+                <div class="step-box step-1">
+                    <h3>Application</h3>
+                    <p>Libera är ett bemannings- och rekryteringsföretag med primär bas i Stockholm och Mälardalen. Bolaget drivs av en ledning med rötterna i bemannings.</p>
+                </div>
+                <div class="step-box  step-2">
+                    <h3>Interviewing </h3>
+                    <p>Libera är ett bemannings- och rekryteringsföretag med primär bas i Stockholm och Mälardalen. Bolaget drivs av en ledning med rötterna i bemannings.</p>
+                </div>
+                <div class="step-box step-3">
+                    <h3>Hiring</h3>
+                    <p>Libera är ett bemannings- och rekryteringsföretag med primär bas i Stockholm och Mälardalen. Bolaget drivs av en ledning med rötterna i bemannings.</p>
+                </div>
+                <div class="step-box step-4">
+                    <h3>Check-in</h3>
+                    <p>Libera är ett bemannings- och rekryteringsföretag med primär bas i Stockholm och Mälardalen. Bolaget drivs av en ledning med rötterna i bemannings.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+    const stepBoxes = document.querySelectorAll('.step-box');
+    const progress = document.querySelector('.list-step-progres');
+
+    stepBoxes.forEach(function(box) {
+        box.addEventListener('mouseenter', function() {
+            box.classList.add('active')
+            const id = this.classList[1]; 
+            const correspondingStep = document.getElementById(id); 
+            correspondingStep.classList.add('active'); 
+            progress.classList.add('active');
+        });
+        
+        box.addEventListener('mouseleave', function() {
+            box.classList.remove('active')
+            const id = this.classList[1];
+            const correspondingStep = document.getElementById(id);
+            correspondingStep.classList.remove('active'); 
+            progress.classList.remove('active');
+        });
+
+    });
+    });
+    document.addEventListener("DOMContentLoaded", function() {
+    const stepBoxes = document.querySelectorAll('.step-box');
+    let progressStyle = null; 
+
+    stepBoxes.forEach(function(box) {
+        box.addEventListener('mouseenter', function() {
+            let progressDimension = null;
+            if (window.innerWidth <= 767) {
+                const boxOffsetTop = box.offsetTop; 
+                const boxHeight = box.offsetHeight; 
+                progressDimension = boxOffsetTop + (boxHeight / 2 - 40);
+            } else {
+                const boxOffsetLeft = box.offsetLeft; 
+                const boxWidth = box.offsetWidth; 
+                progressDimension = boxOffsetLeft + (boxWidth / 2);
+            }
+
+            progressStyle = document.createElement('style');
+
+            progressStyle.textContent = `
+                .list-step-progres.active::after { 
+                    ${window.innerWidth <= 767 ? 'height' : 'width'}: ${progressDimension}px; 
+                    ${window.innerWidth <= 767 ? 'background-color' : ''}: #7227B7;
+                }`;
+
+            const activeListItem = document.querySelector('.step-icons li.active');
+            if (!activeListItem) {
+                const allSpans = document.querySelectorAll('.step-icons li span');
+                allSpans.forEach(function(span) {
+                    span.style.backgroundColor = ''; 
+                });
+                return; 
+            }
+           
+            const allListItems = document.querySelectorAll('.step-icons li');
+            let foundActive = false;
+
+            allListItems.forEach(function(item) {
+                const span = item.querySelector('span');
+                span.style.backgroundColor = ''; 
+                if (item === activeListItem) {
+                    foundActive = true;
+                    return;
+                }
+
+                if (!foundActive) {
+                    span.style.backgroundColor = '#7227B7'; 
+                }
+            });
+            
+            document.head.appendChild(progressStyle);
+        });
+        
+        box.addEventListener('mouseleave', function() {
+            if (progressStyle) {
+                document.head.removeChild(progressStyle);
+            }
+        });
+    });
+});
+
+  </script>
+    
+    
+</body>
+</html>
